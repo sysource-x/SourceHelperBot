@@ -35,6 +35,13 @@ export async function initializeDiscordBot() {
     client.on(Events.MessageCreate, async (message: Message) => {
       // Ignore bot messages
       if (message.author.bot) return;
+      
+      // Only respond in the "helperbot-chat" channel
+      if (message.channel.isTextBased() && 
+          message.channel instanceof TextChannel && 
+          message.channel.name !== 'helperbot-chat') {
+        return;
+      }
 
       // Get server settings or use defaults
       const serverId = message.guild?.id;
